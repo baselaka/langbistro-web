@@ -288,7 +288,7 @@
   <script>
     // ── CONFIG ──────────────────────────────────────────────────────
     // Replace with your Google Apps Script Web App URL after setup
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxoBpIZs-8E4mwl-1_sE8w0j55gJruYZ7BykBMg5k6l9bl9pyaOO7mmviA0E4naVkSj/exec';
+    const APPS_SCRIPT_URL = 'https://formspree.io/f/mjgpyogq';
     // ───────────────────────────────────────────────────────────────
 
     async function handleSubmit() {
@@ -309,38 +309,24 @@
       btn.disabled = true;
       btn.textContent = 'Sending…';
 
-      // Hidden iframe to absorb the form redirect
-      let iframe = document.getElementById('hidden_iframe');
-      if (!iframe) {
-        iframe = document.createElement('iframe');
-        iframe.name = 'hidden_iframe';
-        iframe.id = 'hidden_iframe';
-        iframe.style.display = 'none';
-        document.body.appendChild(iframe);
-      }
-
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = APPS_SCRIPT_URL;
-      form.target = 'hidden_iframe';
-      form.style.display = 'none';
-
-      const f1 = document.createElement('input');
-      f1.name = 'email'; f1.value = email;
-      const f2 = document.createElement('input');
-      f2.name = 'timestamp'; f2.value = new Date().toISOString();
-      form.appendChild(f1); form.appendChild(f2);
-      document.body.appendChild(form);
-      form.submit();
-      document.body.removeChild(form);
-
-      setTimeout(() => {
-        row.style.display = 'none';
-        note.style.display = 'none';
-        success.classList.add('visible');
+      try {
+        const res = await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ email, timestamp: new Date().toISOString() }),
+        });
+        if (res.ok) {
+          row.style.display = 'none';
+          note.style.display = 'none';
+          success.classList.add('visible');
+        } else {
+          throw new Error('Failed');
+        }
+      } catch {
         btn.disabled = false;
         btn.textContent = 'Notify me';
-      }, 1500);
+        alert('Something went wrong. Please try again.');
+      }
     }
 
     document.getElementById('email-input')
