@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subscribe — LangBistro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --forest: #1A5C3A; --forest-dark: #124027; --cream: #F5F0E8; --ink: #0E1F16; --muted: #5A7A68; --border: rgba(26,92,58,0.12); }
+    html, body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; font-weight: 300; min-height: 100%; }
+    .page { max-width: 860px; margin: 0 auto; padding: 0 28px 80px; }
+    header { padding: 40px 0 48px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); margin-bottom: 64px; }
+    .logo img { height: 44px; width: auto; }
+    nav a { font-size: 13px; color: var(--muted); text-decoration: none; }
+    nav a:hover { color: var(--forest); }
+
+    /* Warning banner */
+    .warning {
+      display: none;
+      background: rgba(196,98,45,0.08);
+      border: 1.5px solid rgba(196,98,45,0.25);
+      border-radius: 10px;
+      padding: 16px 20px;
+      font-size: 14px;
+      color: #7A3A1A;
+      margin-bottom: 40px;
+      text-align: center;
+      line-height: 1.6;
+    }
+    .warning.visible { display: block; }
+
+    .intro { text-align: center; margin-bottom: 56px; }
+    .intro h1 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 52px); font-weight: 700; margin-bottom: 14px; line-height: 1.1; }
+    .intro h1 em { font-style: italic; color: var(--forest); }
+    .intro p { font-size: 16px; color: var(--muted); max-width: 420px; margin: 0 auto; line-height: 1.65; }
+
+    /* Cards */
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 24px; }
+    .card { background: rgba(255,255,255,0.6); border: 1.5px solid var(--border); border-radius: 14px; padding: 32px 28px; position: relative; }
+    .card.featured { border-color: var(--forest); background: var(--forest); color: var(--cream); }
+    .card.featured .price-period,
+    .card.featured .price-note,
+    .card.featured .card-muted,
+    .card.featured .feature-item { color: rgba(245,240,232,0.75); }
+    .card.featured .feature-item::before { color: rgba(245,240,232,0.6); }
+
+    .badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); font-size: 10px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 12px; border-radius: 20px; white-space: nowrap; }
+    .badge-popular { background: var(--forest-dark); color: var(--cream); }
+    .badge-save { background: var(--cream); color: var(--forest); }
+
+    .card-name { font-size: 13px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+    .card.featured .card-name { color: rgba(245,240,232,0.65); }
+
+    .price-amount { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 700; line-height: 1; }
+    .card.featured .price-amount { color: var(--cream); }
+    .price-period { font-size: 14px; color: var(--muted); }
+    .price-note { font-size: 12px; color: var(--muted); margin: 6px 0 28px; min-height: 18px; }
+
+    .divider { height: 1px; background: var(--border); margin-bottom: 24px; }
+    .card.featured .divider { background: rgba(245,240,232,0.15); }
+
+    .card-muted { font-size: 11px; font-weight: 500; letter-spacing: 1.2px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+    .features { list-style: none; margin-bottom: 32px; }
+    .feature-item { font-size: 14px; color: #3A5040; line-height: 1.5; padding: 5px 0 5px 20px; position: relative; }
+    .feature-item::before { content: '✓'; position: absolute; left: 0; color: var(--forest); font-size: 12px; top: 6px; }
+
+    .subscribe-btn {
+      display: block; width: 100%; text-align: center;
+      padding: 14px; border-radius: 8px;
+      font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+      cursor: pointer; transition: all 0.2s;
+      border: 1.5px solid var(--border); background: transparent; color: var(--ink);
+    }
+    .subscribe-btn:hover:not(:disabled) { border-color: var(--forest); background: rgba(26,92,58,0.05); }
+    .card.featured .subscribe-btn { background: var(--cream); color: var(--forest); border-color: transparent; }
+    .card.featured .subscribe-btn:hover:not(:disabled) { background: white; }
+    .subscribe-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .tax-note { text-align: center; font-size: 13px; color: var(--muted); margin-bottom: 48px; }
+
+    footer { margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--border); font-size: 12px; color: #9AAA9F; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+    footer a { color: #9AAA9F; text-decoration: none; }
+    footer a:hover { color: var(--forest); }
+
+    @media (max-width: 480px) {
+      .cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <a href="/" style="text-decoration:none;"><img src="langbistro_logo.png" alt="LangBistro" style="height:44px;width:auto;" /></a>
+      <nav><a href="/pricing.html">← See pricing</a></nav>
+    </header>
+
+    <div class="warning" id="warning">
+      Please access this page from the LangBistro bot using <strong>/subscribe</strong>
+    </div>
+
+    <div class="intro">
+      <h1>Upgrade to <em>Pro</em></h1>
+      <p>Unlimited conversations, all vocabulary tiers, and more capable AI models.</p>
+    </div>
+
+    <div class="cards">
+      <!-- Monthly -->
+      <div class="card">
+        <p class="card-name">Pro Monthly</p>
+        <div>
+          <span class="price-amount">$11.99</span>
+          <span class="price-period"> / month</span>
+        </div>
+        <p class="price-note">Billed monthly · Cancel anytime</p>
+        <div class="divider"></div>
+        <p class="card-muted">Everything in Free, plus</p>
+        <ul class="features">
+          <li class="feature-item">Unlimited text &amp; voice messages</li>
+          <li class="feature-item">All vocabulary tiers</li>
+          <li class="feature-item">More capable AI models</li>
+          <li class="feature-item">Priority response quality</li>
+          <li class="feature-item">7-day money-back guarantee</li>
+        </ul>
+        <button class="subscribe-btn" id="btn-monthly" onclick="openCheckout('monthly')">Subscribe — $11.99/mo</button>
+      </div>
+
+      <!-- Annual -->
+      <div class="card featured">
+        <div class="badge badge-save">Save 44%</div>
+        <p class="card-name">Pro Annual</p>
+        <div>
+          <span class="price-amount">$79.99</span>
+          <span class="price-period"> / year</span>
+        </div>
+        <p class="price-note">~$6.67/mo · Billed once per year</p>
+        <div class="divider"></div>
+        <p class="card-muted">Everything in Free, plus</p>
+        <ul class="features">
+          <li class="feature-item">Unlimited text &amp; voice messages</li>
+          <li class="feature-item">All vocabulary tiers</li>
+          <li class="feature-item">More capable AI models</li>
+          <li class="feature-item">Priority response quality</li>
+          <li class="feature-item">7-day money-back guarantee</li>
+        </ul>
+        <button class="subscribe-btn" id="btn-annual" onclick="openCheckout('annual')">Subscribe — $79.99/yr</button>
+      </div>
+    </div>
+
+    <p class="tax-note">Taxes calculated at checkout.</p>
+
+    <footer>
+      <span>© 2025 LangBistro. All rights reserved.</span>
+      <span>
+        <a href="/pricing.html">Pricing</a> ·
+        <a href="/terms.html">Terms</a> ·
+        <a href="/privacy.html">Privacy</a> ·
+        <a href="/refund.html">Refund Policy</a>
+      </span>
+    </footer>
+  </div>
+
+  <script>
+    const PADDLE_CLIENT_TOKEN = 'live_b67b0cbbd29bccc5ee983718a5e';
+    const PRICE_IDS = {
+      monthly: 'pri_01kmzyffw6df3z0d2gh851fz5j',
+      annual:  'pri_01kmzygpx2955dsdetymrqd3rg',
+    };
+
+    // Read telegram_id from URL
+    const params = new URLSearchParams(window.location.search);
+    const telegramId = params.get('telegram_id');
+
+    // Show warning and disable buttons if no telegram_id
+    if (!telegramId) {
+      document.getElementById('warning').classList.add('visible');
+      document.getElementById('btn-monthly').disabled = true;
+      document.getElementById('btn-annual').disabled = true;
+    }
+
+    // Init Paddle
+    Paddle.Initialize({
+      token: PADDLE_CLIENT_TOKEN,
+      environment: 'production',
+    });
+
+    function openCheckout(plan) {
+      if (!telegramId) return;
+      Paddle.Checkout.open({
+        items: [{ priceId: PRICE_IDS[plan], quantity: 1 }],
+        customData: { telegram_id: telegramId },
+      });
+    }
+  </script>
+</body>
+</html>
