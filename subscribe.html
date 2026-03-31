@@ -164,41 +164,53 @@
   </div>
 
   <script>
-    const PADDLE_CLIENT_TOKEN = 'live_b67b0cbbd29bccc5ee983718a5e';
-    const PRICE_IDS = {
-      monthly: 'pri_01kmzyffw6df3z0d2gh851fz5j',
-      annual:  'pri_01kmzygpx2955dsdetymrqd3rg',
-    };
+const PADDLE_CLIENT_TOKEN = 'live_b67b0cbbd29bccc5ee983718a5e';
+const PRICE_IDS = {
+  monthly: 'pri_01kmzyffw6df3z0d2gh851fz5j',
+  annual:  'pri_01kmzygpx2955dsdetymrqd3rg',
+};
 
-    const params = new URLSearchParams(window.location.search);
-    const telegramId = params.get('telegram_id');
-    const plan = params.get('plan');
+const params = new URLSearchParams(window.location.search);
+const telegramId = params.get('telegram_id');
+const plan = params.get('plan');
 
-    // Show warning and disable buttons if no telegram_id
-    if (!telegramId) {
-      document.getElementById('warning').classList.add('visible');
-      document.getElementById('btn-monthly').disabled = true;
-      document.getElementById('btn-annual').disabled = true;
+if (!telegramId) {
+  document.getElementById('warning').classList.add('visible');
+  document.getElementById('btn-monthly').disabled = true;
+  document.getElementById('btn-annual').disabled = true;
+}
+
+function openCheckout(selectedPlan) {
+  if (!telegramId || !PRICE_IDS[selectedPlan]) return;
+  Paddle.Checkout.open({
+    items: [{ priceId: PRICE_IDS[selectedPlan], quantity: 1 }],
+    customData: { telegram_id: telegramId },
+  });
+}
+
+function attemptAutoOpen() {
+  if (!telegramId || !plan || !PRICE_IDS[plan]) return;
+  // Poll until Paddle is ready, max 10 seconds
+  let attempts = 0;
+  const interval = setInterval(function() {
+    attempts++;
+    if (window.Paddle && window.Paddle.Initialized) {
+      clearInterval(interval);
+      openCheckout(plan);
     }
-
-    function openCheckout(selectedPlan) {
-      if (!telegramId || !PRICE_IDS[selectedPlan]) return;
-      Paddle.Checkout.open({
-        items: [{ priceId: PRICE_IDS[selectedPlan], quantity: 1 }],
-        customData: { telegram_id: telegramId },
-      });
+    if (attempts >= 100) {
+      // Gave up after 10 seconds — user sees cards and picks manually
+      clearInterval(interval);
     }
+  }, 100);
+}
 
-    // Init Paddle — auto-open after ready if plan param present
-    Paddle.Initialize({
-      token: PADDLE_CLIENT_TOKEN,
-      environment: 'production',
-      eventCallback: function(event) {
-        if (event.name === 'paddle.initialized' && telegramId && plan && PRICE_IDS[plan]) {
-          openCheckout(plan);
-        }
-      }
-    });
-  </script>
+Paddle.Initialize({
+  token: PADDLE_CLIENT_TOKEN,
+  environment: 'production',
+});
+
+attemptAutoOpen();
+</script>
 </body>
 </html>
