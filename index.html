@@ -94,6 +94,15 @@
 
     @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 
+    #lang-rotate {
+      display: inline-block;
+      color: var(--forest);
+      font-style: italic;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    #lang-rotate.fade-out { opacity: 0; transform: translateY(-10px); }
+    #lang-rotate.fade-in  { opacity: 1; transform: translateY(0); }
+
     @media (max-width: 480px) {
       header { padding-top: 36px; }
       .cta-group { flex-direction: column; align-items: flex-start; }
@@ -111,8 +120,8 @@
     </header>
 
     <main>
-      <h1>Learn to <em>speak</em><br>Spanish</h1>
-      <span class="lang-tag">More languages coming soon</span>
+      <h1>Learn to <em>speak</em><br><span id="lang-rotate">Spanish</span></h1>
+      <span class="lang-tag" id="lang-tag">More languages coming soon</span>
 
       <div class="divider"></div>
 
@@ -206,6 +215,26 @@
 
     document.getElementById('email-input')
       .addEventListener('keydown', e => { if (e.key === 'Enter') handleSubmit(); });
+
+    // Language rotation
+    const langs = [
+      'Spanish',
+      'French',
+    ];
+    let current = 0;
+    const el = document.getElementById('lang-rotate');
+    const tagEl = document.getElementById('lang-tag');
+
+    function rotateLang() {
+      el.classList.add('fade-out');
+      setTimeout(() => {
+        current = (current + 1) % langs.length;
+        el.textContent = langs[current];
+        el.classList.remove('fade-out');
+      }, 380);
+    }
+
+    setInterval(rotateLang, 2800);
   </script>
 </body>
 </html>
