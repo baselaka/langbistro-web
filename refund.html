@@ -1,74 +1,106 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" translate="no">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#F5F0E8" />
+  <meta name="description" content="LangBistro Refund Policy." />
   <title>Refund Policy — LangBistro</title>
+  <link rel="icon" href="langbistro_icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --forest: #1A5C3A; --forest-dark: #124027; --cream: #F5F0E8; --ink: #0E1F16; --muted: #5A7A68; --border: rgba(26,92,58,0.12); }
-    html, body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', sans-serif; font-weight: 300; }
-    .page { max-width: 720px; margin: 0 auto; padding: 0 28px 80px; }
-    header { padding: 40px 0 48px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); margin-bottom: 56px; }
-    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-    .logo img { height: 44px; width: auto; }
-    nav a { font-size: 13px; color: var(--muted); text-decoration: none; }
-    nav a:hover { color: var(--forest); }
-    .meta { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
-    h1 { font-family: 'Playfair Display', serif; font-size: clamp(32px, 5vw, 48px); font-weight: 700; color: var(--ink); margin-bottom: 40px; line-height: 1.1; }
-    h2 { font-size: 15px; font-weight: 500; color: var(--forest); margin: 40px 0 12px; }
-    p { font-size: 15px; line-height: 1.75; color: #3A5040; margin-bottom: 16px; }
+    :root {
+      color-scheme: light;
+      --forest: #1A5C3A; --forest-dark: #124027;
+      --cream: #F5F0E8; --cream-card: #FBF8F2; --ink: #0E1F16; --muted: #5A7A68; --soft: #8FA89A;
+      --border: rgba(26,92,58,0.14);
+    }
+    html, body { background: var(--cream); color: var(--ink); font-family: 'DM Sans', system-ui, sans-serif; font-weight: 300; -webkit-font-smoothing: antialiased; }
+    a, button { -webkit-tap-highlight-color: rgba(26,92,58,0.18); touch-action: manipulation; }
+    :focus-visible { outline: 2px solid var(--forest); outline-offset: 3px; border-radius: 4px; }
+    .skip-link { position: absolute; left: 12px; top: -56px; background: var(--forest); color: var(--cream); padding: 10px 16px; border-radius: 8px; font-size: 14px; font-weight: 500; z-index: 200; text-decoration: none; transition: top 0.18s ease; }
+    .skip-link:focus { top: 12px; }
+
+    .shell { max-width: 720px; margin: 0 auto; padding: 0 28px 80px; }
+    header.site { display: flex; align-items: center; justify-content: space-between; padding: 26px 0; border-bottom: 1px solid var(--border); margin-bottom: 52px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; }
+    .brand img { height: 44px; width: auto; display: block; }
+    .nav-link { font-size: 14px; color: var(--muted); text-decoration: none; padding: 9px 14px; border-radius: 8px; transition: color 0.18s ease, background-color 0.18s ease; }
+    .nav-link:hover { color: var(--forest); background-color: rgba(26,92,58,0.06); }
+
+    .meta { font-size: 12px; color: var(--soft); margin-bottom: 14px; letter-spacing: 0.3px; }
+    .meta a { color: var(--forest); }
+    h1 { font-family: 'Playfair Display', serif; font-size: clamp(34px, 5vw, 48px); font-weight: 700; color: var(--ink); margin-bottom: 8px; line-height: 1.1; letter-spacing: -1px; }
+    .lede { font-size: 16px; color: var(--muted); line-height: 1.7; margin-bottom: 40px; }
+    h2 { font-size: 15px; font-weight: 600; color: var(--forest); margin: 38px 0 12px; letter-spacing: 0.2px; scroll-margin-top: 24px; }
+    p { font-size: 15px; line-height: 1.75; color: #36493D; margin-bottom: 16px; }
     ul { padding-left: 20px; margin-bottom: 16px; }
-    ul li { font-size: 15px; line-height: 1.75; color: #3A5040; margin-bottom: 6px; }
+    ul li { font-size: 15px; line-height: 1.75; color: #36493D; margin-bottom: 6px; }
     a { color: var(--forest); }
-    footer { margin-top: 64px; padding-top: 32px; border-top: 1px solid var(--border); font-size: 12px; color: #9AAA9F; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
-    footer a { color: #9AAA9F; text-decoration: none; }
-    footer a:hover { color: var(--forest); }
+
+    footer.site { margin-top: 60px; padding-top: 32px; border-top: 1px solid var(--border); font-size: 13px; color: var(--soft); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    footer.site nav { display: flex; gap: 20px; flex-wrap: wrap; }
+    footer.site a { color: var(--soft); text-decoration: none; transition: color 0.18s ease; }
+    footer.site a:hover { color: var(--forest); }
   </style>
 </head>
 <body>
-  <div class="page">
-    <header>
-      <a href="/" class="logo"><img src="langbistro_logo.png" alt="LangBistro" /></a>
-      <nav><a href="/">← Back to home</a></nav>
+  <a href="#main" class="skip-link">Skip to content</a>
+  <div class="shell">
+    <header class="site">
+      <a href="/" class="brand" aria-label="LangBistro home"><img src="langbistro_logo.png" alt="" /></a>
+      <nav aria-label="Primary"><a href="/" class="nav-link">← Back to home</a></nav>
     </header>
-    <p class="meta">Last updated: March 2026 · <a href="#" class="eml">[email]</a></p>
-    <h1>Refund Policy</h1>
 
-    <p>This Refund Policy applies to all paid subscriptions to LangBistro.</p>
+    <main id="main">
+      <p class="meta">Last updated: March 2026 · <a href="#" class="eml">[email]</a></p>
+      <h1>Refund Policy</h1>
+      <p class="lede">This Refund Policy applies to all paid subscriptions to LangBistro.</p>
 
-    <h2>1. General Policy</h2>
-    <p>All subscription payments are non-refundable except as described below. By subscribing, you acknowledge that you have reviewed the free tier and understand what you are purchasing.</p>
+      <h2>1. General Policy</h2>
+      <p>All subscription payments are non-refundable except as described below. By subscribing, you acknowledge that you have reviewed the free tier and understand what you are purchasing.</p>
 
-    <h2>2. 7-Day Refund Window</h2>
-    <p>If you are not satisfied with your subscription, you may request a full refund within 7 days of your initial purchase. This applies to first-time purchases only and does not apply to renewals.</p>
+      <h2>2. 7-Day Refund Window</h2>
+      <p>If you are not satisfied with your subscription, you may request a full refund within 7 days of your initial purchase. This applies to first-time purchases only and does not apply to renewals.</p>
 
-    <h2>3. How to Request a Refund</h2>
-    <p>To request a refund, contact us at <a href="#" class="eml">[email]</a> within the refund window. Include your Telegram username and the email address used for payment. We will initiate eligible refunds within 10 business days of approval. The time for funds to appear in your account depends on your payment provider and may take an additional 5–10 business days. LangBistro is not responsible for delays caused by your bank or payment processor once the refund has been issued.</p>
+      <h2>3. How to Request a Refund</h2>
+      <p>To request a refund, contact us at <a href="#" class="eml">[email]</a> within the refund window. Include your Telegram username and the email address used for payment. We will initiate eligible refunds within 10 business days of approval. The time for funds to appear in your account depends on your payment provider and may take an additional 5–10 business days. LangBistro is not responsible for delays caused by your bank or payment processor once the refund has been issued.</p>
 
-    <h2>4. Renewals</h2>
-    <p>Recurring subscription renewals are non-refundable. You are responsible for cancelling your subscription before the renewal date if you do not wish to be charged. Cancellation instructions are available via the /settings command in the bot.</p>
+      <h2>4. Renewals</h2>
+      <p>Recurring subscription renewals are non-refundable. You are responsible for cancelling your subscription before the renewal date if you do not wish to be charged. Cancellation instructions are available via the /settings command in the bot.</p>
 
-    <h2>5. Exceptions</h2>
-    <p>We may issue refunds outside of this policy at our sole discretion in cases of significant technical failure on our part that prevented access to the Service.</p>
+      <h2>5. Exceptions</h2>
+      <p>We may issue refunds outside of this policy at our sole discretion in cases of significant technical failure on our part that prevented access to the Service.</p>
 
-    <h2>6. Chargebacks</h2>
-    <p>Please contact us before initiating a chargeback with your bank. Initiating a chargeback without first requesting a refund through us may result in permanent account termination.</p>
+      <h2>6. Chargebacks</h2>
+      <p>Please contact us before initiating a chargeback with your bank. Initiating a chargeback without first requesting a refund through us may result in permanent account termination.</p>
 
-    <h2>7. Account Termination</h2>
-    <p>If your account is suspended or terminated due to a violation of our Terms of Service, you are not entitled to a refund for any unused portion of your subscription.</p>
+      <h2>7. Account Termination</h2>
+      <p>If your account is suspended or terminated due to a violation of our Terms of Service, you are not entitled to a refund for any unused portion of your subscription.</p>
 
-    <h2>8. Contact</h2>
-    <p>For refund requests or questions: <a href="#" class="eml">[email]</a>
-<script>
-document.querySelectorAll('.eml').forEach(function(el){
-  var u='support',d='langbistro.com',e=u+'@'+d;
-  el.href='mailto:'+e;
-  el.textContent=e;
-});
-</script>
+      <h2>8. Contact</h2>
+      <p>For refund requests or questions: <a href="#" class="eml">[email]</a>.</p>
+    </main>
+
+    <footer class="site">
+      <span>© 2026 LangBistro. All rights reserved.</span>
+      <nav aria-label="Footer">
+        <a href="/pricing.html">Pricing</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/privacy.html">Privacy</a>
+      </nav>
+    </footer>
+  </div>
+
+  <script>
+    document.querySelectorAll('.eml').forEach(function (el) {
+      var u = 'support', d = 'langbistro.com', e = u + '@' + d;
+      el.href = 'mailto:' + e;
+      el.textContent = e;
+    });
+  </script>
 </body>
 </html>
