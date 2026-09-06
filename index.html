@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#F5F0E8" />
-  <meta name="description" content="Practice real conversations with an AI language tutor — straight inside Telegram. No app, no schedules. Just talk in Spanish and French." />
+  <meta name="description" content="Practice real conversations with an AI language tutor — straight inside Telegram. No app, no schedules. Just talk in Spanish, French, and English." />
   <title>LangBistro — Learn to speak, right inside Telegram</title>
   <link rel="icon" href="langbistro_icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -330,7 +330,7 @@
         <div class="hero-copy">
           <span class="eyebrow"><span class="dot" aria-hidden="true"></span> Your pocket language tutor on Telegram</span>
           <h1>Learn to <em>speak</em><br><span id="lang-rotate" aria-live="polite">Spanish</span></h1>
-          <span class="lang-tag" id="lang-tag">Spanish &amp; French today — more languages coming soon</span>
+          <span class="lang-tag" id="lang-tag">Spanish, French &amp; English</span>
 
           <div class="divider" aria-hidden="true"></div>
 
@@ -408,8 +408,8 @@
       <section class="signup" aria-labelledby="signup-heading">
         <div>
           <span class="signup-label">Stay in the loop</span>
-          <h2 id="signup-heading">Be first when new<br>languages land</h2>
-          <p>We’re adding more languages soon. Drop your email and we’ll let you know the moment they’re live.</p>
+          <h2 id="signup-heading">Stay close to<br>what’s next</h2>
+          <p>Product updates, new features, and the occasional tip — drop your email and we’ll keep you in the loop.</p>
         </div>
         <div>
           <form class="signup-form" id="signup-form" novalidate>
@@ -486,7 +486,7 @@
     });
 
     // Rotating language word
-    const langs = ['Spanish', 'French'];
+    const langs = ['Spanish', 'French', 'English'];
     let current = 0;
     const el = document.getElementById('lang-rotate');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
